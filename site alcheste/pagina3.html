@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>ALCHESTE DE GODOY ANDIA</title>
+    <link rel="stylesheet" href="pagina3.css">
+    <style>
+        /* Estilos do header com Flexbox */
+        header {
+            display: flex;
+            justify-content: space-between; /* Distribui os itens com espaço entre eles */
+            align-items: center; /* Alinha verticalmente no centro */
+            padding: 1rem;
+            background-color: #333;
+            color: white;
+        }
+
+        .login-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .cabecalho-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .cabecalho-container h1 {
+            margin-left: 10px;
+        }
+
+        /* Saudação do usuário */
+        .user-greeting {
+            font-size: 1rem;
+            color: white;
+            margin-right: 10px; /* Espaçamento à direita */
+        }
+
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            width: 300px;
+        }
+
+        .login-modal input {
+            display: block;
+            margin-bottom: 1rem;
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .close-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Cabeçalho com o logo e título -->
+        <div class="cabecalho-container">
+            <a href="index.html">
+                <div id="trulimero">
+                    <img src="trulimero.png" alt="Imagem do Trulimero">
+                </div>
+            </a>
+            <div>
+                <h1>ALCHESTE DE GODOY ANDIA</h1>
+            </div>
+        </div>
+
+        <!-- Saudação do usuário (inicialmente vazio) -->
+        <div id="greeting" class="user-greeting"></div>
+
+        <!-- Botão de login -->
+        <button class="login-btn" onclick="toggleLogin()">Login</button>
+    </header>
+
+    <nav>
+        <a href="index.html">Início</a>
+        <a href="pagina2.html">Sobre nós</a>
+        <a href="pagina3.html">Contate-nos</a>
+        <a href="pagina4.html">Blog</a>
+    </nav>
+
+    <main>
+        <h2>Bem-vindo à Página 1</h2>
+        <p>Pagina 1</p>
+    </main>
+
+    <footer>
+        &copy; 2025 - Escola ALCHESTE DE GODOY ANDIA
+    </footer>
+
+    <!-- Overlay e Pop-up -->
+    <div class="overlay" id="overlay" onclick="toggleLogin()"></div>
+
+    <div class="login-modal" id="loginModal">
+        <button class="close-btn" onclick="toggleLogin()">X</button>
+        <h2>Login</h2>
+        <!-- Formulário de login com validação -->
+        <form id="loginForm" onsubmit="return validateForm()">
+            <input type="text" id="name" placeholder="Nome" required>
+            <input type="email" id="email" placeholder="E-mail" required>
+            <input type="password" id="password" placeholder="Senha" required>
+            <button type="submit" class="login-btn">Entrar</button>
+            <div id="error-message" class="error-message"></div>
+        </form>
+    </div>
+
+    <script>
+        function toggleLogin() {
+            const modal = document.getElementById('loginModal');
+            const overlay = document.getElementById('overlay');
+            const isVisible = modal.style.display === 'block';
+            modal.style.display = isVisible ? 'none' : 'block';
+            overlay.style.display = isVisible ? 'none' : 'block';
+        }
+
+        function validateForm() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+            const greeting = document.getElementById('greeting');
+
+            // Verificação de e-mail (formatado corretamente)
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!email.match(emailPattern)) {
+                errorMessage.textContent = "Por favor, insira um e-mail válido.";
+                return false; // Impede o envio do formulário
+            }
+
+            // Verificação de senha (pode adicionar mais critérios se necessário)
+            if (password.length < 6) {
+                errorMessage.textContent = "A senha deve ter pelo menos 6 caracteres.";
+                return false; // Impede o envio do formulário
+            }
+
+            // Se tudo estiver correto, exibe o nome do usuário na saudação
+            errorMessage.textContent = ""; // Limpa a mensagem de erro
+            greeting.textContent = `Olá, ${name}!`; // Exibe o nome na saudação ao lado do botão de login
+
+            // Esconde o modal de login após o sucesso
+            toggleLogin();
+
+            return false; // Retorna false para evitar o envio do formulário real (simulação de login)
+        }
+    </script>
+</body>
+</html>
